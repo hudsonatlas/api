@@ -121,7 +121,22 @@ class Apicontroller extends Controller
     public function removeRecommendation($id)
     {
         $recommendation = Recommendation::find($id);
+
         $recommendation->delete();
         return response()->json(null, 204);
+    }
+
+    public function updateRecommendationStatus($id)
+    {
+        $recommendation = Recommendation::find($id);
+         
+        if($recommendation->status == 'initiated') {
+            $recommendation->status = 'in process';
+        } elseif ($recommendation->status = 'in process') {
+            $recommendation->status = 'finished';
+        }
+        
+        $recommendation->save();
+        return response()->json($recommendation, 204);
     }
 }
